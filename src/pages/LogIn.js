@@ -34,36 +34,30 @@ const h3Style = {
   padding: "20px",
 };
 
-const buttonStyle = {
-  margin: "10px 0",
-};
+const buttonStyle = { margin: "10px 0" };
 
-class SignUp extends React.Component {
+class LogIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: "",
-      firstname: "",
-      lastname: "",
       success: false,
-      login: false,
+      signup: false,
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.redirectToLogIn = this.redirectToLogIn.bind(this);
-  }
 
+    this.handleChange = this.handleChange.bind(this);
+    this.redirectToSignUp = this.redirectToSignUp.bind(this);
+  }
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-
-  redirectToLogIn() {
-    this.setState({ login: true });
+  redirectToSignUp() {
+    this.setState({ signup: true });
   }
-
   render() {
-    if (this.state.login) {
-      return <Redirect to="./login" />;
+    if (this.state.signup) {
+      return <Redirect to="./signup" />;
     }
     return (
       <div>
@@ -87,41 +81,20 @@ class SignUp extends React.Component {
                   mollit anim id est laborum.
                 </h3>
                 <img
-                  src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/close-up-of-pink-flowers-blooming-outdoors-royalty-free-image-766438049-1544576123.jpg"
-                  alt="Dark pink flowers"
-                  width="60%"
+                  src="https://fairviewgardencenter.com/wp-content/uploads/2017/07/cherry-blossom.jpg"
+                  alt="pink flowers"
+                  width="70%"
                 />
               </div>
             </Paper>
           </Grid>
           <Grid item>
-            <Paper style={rightPaperStyle} elevation={10}>
+            <Paper elevation={10} style={rightPaperStyle}>
               <Grid align="center">
                 <Avatar></Avatar>
-                <h2>Sign up</h2>
+                <h2>Log in</h2>
               </Grid>
               <form>
-                <TextField
-                  label="First name"
-                  placeholder="John"
-                  name="firstname"
-                  id="firstname"
-                  fullWidth
-                  required
-                  autoFocus
-                  onChange={this.handleChange}
-                  value={this.state.firstname}
-                />
-                <TextField
-                  label="Last name"
-                  placeholder="Appleseed"
-                  name="lastname"
-                  id="lastname"
-                  fullWidth
-                  required
-                  onChange={this.handleChange}
-                  value={this.state.lastname}
-                />
                 <TextField
                   label="Email"
                   placeholder="Enter email"
@@ -129,6 +102,7 @@ class SignUp extends React.Component {
                   id="email"
                   fullWidth
                   required
+                  autoFocus
                   onChange={this.handleChange}
                   value={this.state.email}
                 />
@@ -150,13 +124,13 @@ class SignUp extends React.Component {
                   style={buttonStyle}
                   fullWidth
                 >
-                  Sign up
+                  Sign in
                 </Button>
               </form>
               <Typography>
-                Already have an account?{" "}
-                <Link href="" onClick={this.redirectToLogIn}>
-                  Log in
+                Don't have an account?{" "}
+                <Link href="" onClick={this.redirectToSignUp}>
+                  Sign up
                 </Link>
               </Typography>
             </Paper>
@@ -167,4 +141,4 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp;
+export default LogIn;
