@@ -11,6 +11,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
+import {
+  authFunctions
+} from '../firebase';
 
 const gridStyle = {
   width: "100%",
@@ -44,13 +47,22 @@ class LogIn extends React.Component {
       password: "",
       success: false,
       signup: false,
+      uid: null
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.redirectToSignUp = this.redirectToSignUp.bind(this);
   }
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
+  }
+  handleSubmit(event) {
+    authFunctions.logIn(this.state.email, this.state.password);
+    authFunctions.onUserActive((uid) => {
+      this.setState({success: true, uid: uid});
+    });
+    event.preventDefault();
   }
   redirectToSignUp() {
     this.setState({ signup: true });
@@ -58,6 +70,9 @@ class LogIn extends React.Component {
   render() {
     if (this.state.signup) {
       return <Redirect to="./signup" />;
+    }
+    if (this.state.success) {
+      return <Redirect to="./home"/>;
     }
     return (
       <div>
@@ -94,7 +109,7 @@ class LogIn extends React.Component {
                 <Avatar></Avatar>
                 <h2>Log in</h2>
               </Grid>
-              <form>
+              <form onSubmit={this.handleSubmit}>
                 <TextField
                   label="Email"
                   placeholder="Enter email"

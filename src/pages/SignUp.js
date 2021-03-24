@@ -1,6 +1,9 @@
 import React from "react";
 import { AppBar, Avatar, Grid, Paper, Toolbar, TextField, Button, Typography, Link } from '@material-ui/core';
 import {Redirect} from 'react-router-dom';
+import {
+    authFunctions
+} from '../firebase';
 
 const gridStyle = {
     width: "100%",
@@ -37,14 +40,29 @@ class SignUp extends React.Component {
             firstname: "",
             lastname: "",
             success: false,
-            login: false
+            login: false,
+            uid: null
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.redirectToLogIn = this.redirectToLogIn.bind(this);
     }
 
     handleChange(event) {
         this.setState({[event.target.name]: event.target.value});
+    }
+
+    handleSubmit(event) {
+        authFunctions.signUp(
+            this.state.firstname,
+            this.state.lastname,
+            this.state.email,
+            this.state.password
+        );
+        authFunctions.onUserActive((uid) => {
+            this.setState({success: true, uid: uid});
+        });
+        event.preventDefault();
     }
 
     redirectToLogIn() {
@@ -54,6 +72,9 @@ class SignUp extends React.Component {
     render() {
         if (this.state.login) {
             return <Redirect to='./login'/>
+        }
+        if (this.state.success) {
+            return <Redirect to="./home"/>
         }
         return (
             <div>
@@ -79,7 +100,7 @@ class SignUp extends React.Component {
                                 <Avatar></Avatar>
                                 <h2>Sign up</h2>
                             </Grid>
-                            <form>
+                            <form onSubmit={this.handleSubmit}>
                                 <TextField label="First name" placeholder="John" name="firstname" id="firstname" fullWidth required autoFocus onChange={this.handleChange} value={this.state.firstname}/>
                                 <TextField label="Last name" placeholder="Appleseed" name="lastname" id="lastname" fullWidth required onChange={this.handleChange} value={this.state.lastname}/>
                                 <TextField label="Email" placeholder="Enter email" name="email" id="email" fullWidth required onChange={this.handleChange} value={this.state.email}/>
