@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import SignUp from './pages/SignUp';
 import LogIn from './pages/LogIn';
+import Feed from './pages/Feed';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 ReactDOM.render(
@@ -15,6 +16,7 @@ ReactDOM.render(
         <Route exact path='/' component={App}/>
         <Route exact path='/signup' component={SignUp}/>
         <Route exact path='/login' component={LogIn}/>
+        <Route exact path='/home' component={Feed}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
