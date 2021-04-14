@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar/NavBar";
 import {authFunctions, profileFunctions} from "../firebase";
 import {Redirect} from "react-router-dom";
 import {Box, Button, Dialog, DialogTitle, DialogContent, TextField} from "@material-ui/core";
+import PostList from "./components/PostList";
 
 const outerContainer = {
     position: "static",
@@ -123,6 +124,7 @@ class Feed extends React.Component{
                     </Box>
                     <UploadDialog open = {this.state.posting} onClose = {this.closePostModal}/>
                 </Box>
+                <PostList/>
             </div>
         )
     }

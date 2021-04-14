@@ -31,6 +31,23 @@ class Firebase {
             .catch(this.debugError);
     }
 
+    pushDatabase(root, json, callback) {
+      // Push to the database, meaning we create a NEW item every time
+      // callback called with the pushed post
+      this.database.ref(root).push(json).then(ref=>callback(ref))
+        .catch((error) => {
+          this.debugError(error);
+        });
+    }
+  
+    uploadFile(root, filename, data, callback) {
+      // Upload a file to firebase storage
+      // callback called with a weblink to the file.
+      this.storage.ref(`${root}/${filename}`).put(data).then(snapshot=>{
+        snapshot.ref.getDownloadURL().then(url=>callback(url));
+      });
+    }
+
     readDatabase(root, event, callback) {
         this.database.ref(root).on(event, callback);
     }
