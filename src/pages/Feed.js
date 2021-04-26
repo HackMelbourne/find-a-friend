@@ -74,6 +74,7 @@ class Feed extends React.Component{
             user: null,
             signout: false,
             posting: false,
+            posts: []
         }
 
         this.handleSignOut = this.handleSignOut.bind(this);
