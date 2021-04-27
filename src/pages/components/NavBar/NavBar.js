@@ -2,6 +2,8 @@ import React from "react";
 import SearchBar from "./SearchBar";
 import {styled} from "@material-ui/core/styles";
 import {Button} from "@material-ui/core";
+import authFunctions from "../../../firebase/authFunctions.js";
+import profileFunctions from "../../../firebase/profileFunctions.js";
 
 const StyledButton = styled(Button)({
     padding: "8px 20px",
@@ -52,11 +54,22 @@ class NavBar extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-
+            user: null
         }
     }
 
+    // function that gets called after the ui is loaded (render function finished)
+    componentDidMount() {
+        authFunctions.onUserActive((uid) => {
+            profileFunctions.fetchUserData(this, uid);
+        })
+    }
+
     render(){
+
+        if (this.state.user != null) {
+            var profileButton = <a href={`/profile/${this.state.user.key}`}><StyledButton>Profile</StyledButton></a>
+        }
 
         return(
             <div style = {{paddingBottom: "5%"}}>
@@ -64,8 +77,8 @@ class NavBar extends React.Component{
                     <h1 style = {{whiteSpace: "nowrap", paddingRight: "3rem"}}>Find-A-Friend</h1>
                     <SearchBar />
                     <ul style = {NavMenuStyle}>
-                        <StyledButton>Home</StyledButton>
-                        <StyledButton>Profile</StyledButton>
+                        <a href="/"><StyledButton>Home</StyledButton></a>
+                        {profileButton}
                     </ul>
                     <SignOutButton onClick = {this.props.signout}>Sign Out</SignOutButton>
                 </nav>

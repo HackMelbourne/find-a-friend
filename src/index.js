@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import SignUp from './pages/SignUp';
 import LogIn from './pages/LogIn';
 import Feed from './pages/Feed';
+import Profile from './pages/Profile';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 ReactDOM.render(
@@ -17,6 +18,7 @@ ReactDOM.render(
         <Route exact path='/signup' component={SignUp}/>
         <Route exact path='/login' component={LogIn}/>
         <Route exact path='/home' component={Feed}/>
+        <Route exact path='/profile/:uid' component={Profile}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
