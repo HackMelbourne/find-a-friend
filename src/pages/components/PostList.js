@@ -1,17 +1,30 @@
 import React from "react";
 import { List, ListItem, Box } from "@material-ui/core";
 import UserPost from './UserPost';
+import { feedFunctions } from "../../firebase";
 
 class PostList extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        // this.props.type
         this.state = {
-            feed: Array(100).fill({
-                username: 'Harry', postImage: 'https://www.sciencemag.org/sites/default/files/styles/inline__450w__no_aspect/public/dogs_1280p_0.jpg',
-                postText: 'Look!', postDate: '14th April'
-            })
+            feed: []
         }
+    }
 
+    componentDidMount(){
+        if (this.props.type === "feed"){
+            setInterval(() => {
+                this.setState({ feed : []}, () => feedFunctions.fetchFeed(this))
+            },1000)
+
+            
+        }
+        else{
+            //TODO lesson - 6
+            // {name:{first, last}, profile_pic, info: { text, timestamp}}
+            // moment.js
+        }   
     }
 
     render() {
@@ -26,7 +39,11 @@ class PostList extends React.Component {
                         // Therefore, combining various fields with '+' from the post will help make a unique identifier.
                         // Read more here: https://reactjs.org/docs/lists-and-keys.html
                         return <ListItem key={post.postText + post.postImage}>
-                            <UserPost {...post} />
+                            
+                            <UserPost username={`${post.name.first} ${post.name.last}`}
+                            userAvatar={post.profile_pic}
+                            postDate={new Date(post.info.timestamp).toString()}
+                            postText={post.info.text}/>
                         </ListItem>
 
 

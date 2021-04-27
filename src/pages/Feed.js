@@ -45,6 +45,7 @@ class UploadDialog extends React.Component{
     }
 
     handleSubmit(){
+        profileFunctions.postOnTimeline(this.state.text, this.state.attachment)
         this.props.onClose();
     }
 
@@ -125,7 +126,7 @@ class Feed extends React.Component{
                     </Box>
                     <UploadDialog open = {this.state.posting} onClose = {this.closePostModal}/>
                 </Box>
-                <PostList/>
+                <PostList type="feed"/>
             </div>
         )
     }
