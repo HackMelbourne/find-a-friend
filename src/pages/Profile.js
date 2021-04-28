@@ -7,6 +7,7 @@ import {
     Avatar, 
     Grid
 } from "@material-ui/core";
+import PostList from "./components/PostList.js";
 
 class Profile extends React.Component {
 
@@ -20,7 +21,6 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.match.params.uid);
         profileFunctions.fetchUserData(this, this.props.match.params.uid);
     }
 
@@ -39,7 +39,7 @@ class Profile extends React.Component {
             return <div></div>;
         }
 
-        var name = this.state.user.val().name;
+        var name = this.state.user.val().name.first + " " + this.state.user.val().name.last;
 
         return (
 
@@ -47,9 +47,11 @@ class Profile extends React.Component {
                 <NavBar signout={this.handleSignOut}/>
 
                 <Grid align="center">
-                    
+                    <Avatar alt="Profile Photo" src={this.state.user.val().profile_pic}/>
                     <h1>{name}</h1>
                 </Grid>
+
+                <PostList type="profile" userData={this.state.user}/>
 
             </div>
         )

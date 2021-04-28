@@ -13,17 +13,18 @@ class PostList extends React.Component {
     }
 
     componentDidMount(){
-        if (this.props.type === "feed"){
+        if (this.props.type == "feed"){
             setInterval(() => {
                 this.setState({ feed : []}, () => feedFunctions.fetchFeed(this))
             },1000)
-
-            
         }
         else{
-            //TODO lesson - 6
-            // {name:{first, last}, profile_pic, info: { text, timestamp}}
-            // moment.js
+            var profilePosts = Object.keys(this.props.userData.val().posts).map((key) => {
+                var posts = 
+                return this.props.userData[key]
+            })
+            console.log(profilePosts)
+            this.setState({feed : profilePosts})
         }   
     }
 
@@ -42,7 +43,7 @@ class PostList extends React.Component {
                             
                             <UserPost username={`${post.name.first} ${post.name.last}`}
                             userAvatar={post.profile_pic}
-                            postDate={new Date(post.info.timestamp).toString()}
+                            postDate={(post.info.timestamp).toString()}
                             postText={post.info.text}/>
                         </ListItem>
 
